@@ -1,5 +1,5 @@
 # Chrome Notes Extension
-A Terrapin Hackers hacktorial from Johann Miller and Omkar Konaraddi
+A Terrapin Hackers hacktorial from Johann Miller and Omkar Konaraddi.
 
 ### Requirements
 Download [Chrome](https://www.google.com/chrome/browser/desktop/)
