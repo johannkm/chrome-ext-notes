@@ -1,4 +1,4 @@
-# Naughty Notes
+# Chrome Notes Extension
 A Terrapin Hackers hacktorial from Johann Miller and Omkar Konaraddi
 
 ### Requirements
@@ -21,8 +21,7 @@ Create a file called `manifest.json` with the following contents.
         "default_popup": "popup.html"
       },
       "permissions": [
-        "activeTab",
-        "storage"
+        "activeTab"
       ]
     }
 ```
@@ -33,23 +32,13 @@ Each chrome extension needs a `manifest.json` file to provide important informat
 Create a file called `popup.html` with the following contents.
 ```language-html
     <!doctype html>
-
     <html>
       <head>
         <title>Notes App</title>
-        <script src="js/popup.js"></script>
-        <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <link href="css/main.css" rel="stylesheet" media="screen">
       </head>
       <body>
-        <div class="container">
-          <h3>Notes</h3>
-          <textarea autofocus placeholder="Type notes" id="text" cols=35 rows=8></textarea>
-          <button type="button" class="btn btn-danger" id="clear">Clear all</button>
-          <button type="button" class="btn btn-primary" id="show">Show all</button>
-          <div id="urlList"></div>
-        </div>
+        <h3>Notes</h3>
+        <textarea></textarea>
       </body>
     </html>
 ```
