@@ -16,7 +16,7 @@ Create a folder named `chrome-ext-notes`. This is where we will keep all the fil
 
 ### 2. Set up the manifest
 Inside `chrome-ext-notes`, create a file called `manifest.json` with the following contents:
-```language-json
+```json
     {
       "manifest_version": 2,
       "name": "Web Notes",
@@ -32,7 +32,7 @@ Each chrome extension needs a `manifest.json` file to provide important informat
 
 ### 3. Set up the HTML
 Create a file called `popup.html` with the following contents.
-```language-html
+```html
     <!doctype html>
     <html>
       <head>
