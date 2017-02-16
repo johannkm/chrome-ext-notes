@@ -66,7 +66,7 @@ Now, add the script to the head of `popup.html`.
     <script type="text/javascript" src="popup.js"></script> <!--link to javascript-->
 </head>
 ```
-Right click on our chrome extension's icon, click "Inspect popup", and you should see our message "javascript loaded" under the "Console" tab. This means your JavaScript is working properly.
+Right click on our chrome extension's icon and click "Inspect popup" to open up the Developer Tools for Chrome. You should see our message "javascript loaded" under the "Console" tab. This means your JavaScript is working properly.
 
 ##### Why?
 JavaScript will let us add more functionality to the extension. Google does not allow inline JavaScript inside the html popup, so we need to create a new file.
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() { //wait for all of the
 
 });
 ```
-Test out the buttons in Chrome. You should get a notification when you click either button.
+Test out the buttons in Chrome. You should see the "todo: save" and "todo: clear" messages appear under the Console tab in the Developer Tools when you click either button. To get to the Developer Tools, right click on the icon and click "Inspect popup".
 
 ### 7. Save the notes with chrome.storage
 We will save the notes locally using Chrome's storage API in JavaScript.
@@ -118,7 +118,7 @@ The ES6 JavaScript keyword `let` acts like `var`, but the variable is only acces
 To save the text, we add this function to `popup.js`:
 ```javascript
 function saveNotes(text){ //write note to local storage
-    chrome.storage.local.set({ notes: text });
+    chrome.storage.local.set({ notes: text });//using Chrome's storage API
 }
 ```
 Chrome storage acts as a map with key-value pairs. In this case, we set 'notes' as the key and text as the value.
@@ -126,7 +126,7 @@ Chrome storage acts as a map with key-value pairs. In this case, we set 'notes' 
 To retrieve the text we stored, add this function:
 ```javascript
 function getNotes(){ //retrieve from local storage
-    chrome.storage.local.get(function(data){
+    chrome.storage.local.get(function(data){//using Chrome's storage API
         if(data.notes){ //if the value exists
             return data.notes;
         }
@@ -176,7 +176,7 @@ function getNotes(){ //retrieve from local storage
     });
 }
 ```
-Now we need to edit `manifest.json` to get permission to access storage.
+Now we need to edit `manifest.json` to get permission to access Chrome's storage. Add the `permissions` block to the manifest. Be sure to add a comma after the `browser_action` block.
 ```json
 {
     "manifest_version": 2,
@@ -191,4 +191,4 @@ Now we need to edit `manifest.json` to get permission to access storage.
     ]
 }
 ```
-Now if you click save, any notes you write should stay in the extension each time you open it.
+Since we've made an edit to the `manifest.json`, reload the chrome extension before testing it out. Now if you click save, any notes you write should stay in the extension each time you open it.
