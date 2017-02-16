@@ -5,9 +5,9 @@ A Terrapin Hackers hacktorial from Johann Miller and Omkar Konaraddi.
 We'll build a basic Chrome extension that lets you write notes for individual webpages.
 
 ### Requirements
-* Download [Chrome](https://www.google.com/chrome/browser/desktop/)
-* Download a text editor (we recommend [Atom](https://atom.io/))
-* Basic HTML, CSS, and JavaScript background
+* [Google Chrome](https://www.google.com/chrome/browser/desktop/)
+* A text editor (we recommend [Atom](https://atom.io/))
+* Basic HTML and JavaScript background
 
 # Instructions
 
@@ -18,13 +18,13 @@ Create a folder named `chrome-ext-notes`. This is where we will keep all the fil
 Inside `chrome-ext-notes`, create a file named `manifest.json` with the following contents:
 ```json
 {
-  "manifest_version": 2,
-  "name": "Web Notes",
-  "description": "Save notes for a webpage.",
-  "version": "1.0",
-  "browser_action": {
-    "default_popup": "popup.html"
-  }
+    "manifest_version": 2,
+    "name": "Web Notes",
+    "description": "Save notes for a webpage.",
+    "version": "1.0",
+    "browser_action": {
+        "default_popup": "popup.html"
+    }
 }
 ```
 ##### Why?
@@ -106,14 +106,50 @@ First we need to get the text that the user typed. Add an id to the textarea in 
 ```html
 <textarea id="noteText"></textarea>
 ```
-Now we can access the textarea in `popup.js`.
+Now we can access the textarea in `popup.js`. Inside the 'DOMContentLoaded' function, above the button code, add:
+```javascript
+let textarea = document.getElementById('noteText');
+```
+We can now use `textarea.value` to get and set the text in the textarea.
 
-Your `popup.js` should look like this:
+##### Note:
+The ES6 JavaScript keyword `let` acts like `var`, but the variable is only accessible within the code block instead of globally.
+
+To save the text, we add this function to `popup.js`:
+```javascript
+function saveNotes(text){ //write note to local storage
+    chrome.storage.local.set({ notes: text });
+}
+```
+Chrome storage acts as a map with key-value pairs. In this case, we set 'notes' as the key and text as the value.
+
+To retrieve the text we stored, add this function:
+```javascript
+function getNotes(){ //retrieve from local storage
+    chrome.storage.local.get(function(data){
+        if(data.notes){ //if the value exists
+            return data.notes;
+        }
+        return '';
+    });
+}
+```
+Now we use these functions in the 'DOMContentLoaded' function. Under the `let textarea` line, add:
+```javascript
+textarea.value = getNotes();
+```
+
+And inside the click function for the save button, change `alert('todo: save')` to:
+```javascript
+saveNotes( textarea.value );
+```
+
+Your `popup.js` should now look like this:
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() { //wait for all of the html to load
-    var textarea = document.getElementById('text');
-    textarea.value = getNotes();
+    let textarea = document.getElementById('noteText');
+    textarea.value = getNotes(); //initialize with saved value
     document.getElementById('saveButton') //get the save button
         .addEventListener('click', function(){ //run this function on a click
             saveNotes( textarea.value );
@@ -123,15 +159,31 @@ document.addEventListener('DOMContentLoaded', function() { //wait for all of the
             alert("todo: clear");
         });
 });
-function saveNotes(text){
+function saveNotes(text){ //write note to local storage
     chrome.storage.local.set({ notes: text });
 }
-function getNotes(){
-    chrome.storage.local.get(url, function(data){
-        if(data.notes){
+function getNotes(){ //retrieve from local storage
+    chrome.storage.local.get(function(data){
+        if(data.notes){ //if the value exists
             return data.notes;
         }
         return '';
     });
 }
 ```
+Now we need to edit `manifest.json` to get permission to access storage.
+```json
+{
+    "manifest_version": 2,
+    "name": "Web Notes",
+    "description": "Save notes for a webpage.",
+    "version": "1.0",
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "storage"
+    ]
+}
+```
+Now if you click save, any notes you write should stay in the extension each time you open it.
