@@ -148,8 +148,10 @@ Your `popup.js` should now look like this:
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() { //wait for all of the html to load
+
     let textarea = document.getElementById('noteText');
     textarea.value = getNotes(); //initialize with saved value
+    
     document.getElementById('saveButton') //get the save button
         .addEventListener('click', function(){ //run this function on a click
             saveNotes( textarea.value );
@@ -158,10 +160,13 @@ document.addEventListener('DOMContentLoaded', function() { //wait for all of the
         .addEventListener('click', function(){ //run this function on a click
             alert("todo: clear");
         });
+        
 });
+
 function saveNotes(text){ //write note to local storage
     chrome.storage.local.set({ notes: text });
 }
+
 function getNotes(){ //retrieve from local storage
     chrome.storage.local.get(function(data){
         if(data.notes){ //if the value exists
