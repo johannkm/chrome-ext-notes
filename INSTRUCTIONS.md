@@ -57,7 +57,7 @@ Any edits to your Html or JavaScript will automatically update in your extension
 ### 5. Set up a JavaScript file
 Create a file named `popup.js` with the following content:
 ```javascript
-alert('Your javascript loaded');
+console.log('javascript loaded')
 ```
 Now, add the script to the head of `popup.html`.
 ```html
@@ -66,7 +66,7 @@ Now, add the script to the head of `popup.html`.
     <script type="text/javascript" src="popup.js"></script> <!--link to javascript-->
 </head>
 ```
-When you click the extension's button in Chrome, you should get a notification saying 'Your javascript loaded'.
+Right click on our chrome extension's icon, click "Inspect popup", and you should see our message "javascript loaded" under the "Console" tab. This means your JavaScript is working properly.
 
 ##### Why?
 JavaScript will let us add more functionality to the extension. Google does not allow inline JavaScript inside the html popup, so we need to create a new file.
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() { //wait for all of the
 
     let textarea = document.getElementById('noteText');
     textarea.value = getNotes(); //initialize with saved value
-    
+
     document.getElementById('saveButton') //get the save button
         .addEventListener('click', function(){ //run this function on a click
             saveNotes( textarea.value );
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() { //wait for all of the
         .addEventListener('click', function(){ //run this function on a click
             alert("todo: clear");
         });
-        
+
 });
 
 function saveNotes(text){ //write note to local storage
