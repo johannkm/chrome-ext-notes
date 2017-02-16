@@ -57,7 +57,7 @@ Any edits to your Html or JavaScript will automatically update in your extension
 ### 5. Set up a JavaScript file
 Create a file named `popup.js` with the following content:
 ```javascript
-console.log('javascript loaded')
+console.log('javascript loaded');
 ```
 Now, add the script to the head of `popup.html`.
 ```html
@@ -82,17 +82,17 @@ We want to be able to save or delete any notes we take with the extension. We wi
 </body>
 ```
 
-We will use JavaScript to respond to button clicks. Remove the alert statement from `popup.js` and add the following:
+We will use JavaScript to respond to button clicks. Remove the `console.log` statement from `popup.js` and add the following:
 ```javascript
 document.addEventListener('DOMContentLoaded', function() { //wait for all of the html to load
 
     document.getElementById('saveButton') //get the save button
         .addEventListener('click', function(){ //run this function on a click
-            alert("todo: save");
+            console.log("todo: save");
         });
     document.getElementById('clearButton') //get the clear button
         .addEventListener('click', function(){ //run this function on a click
-            alert("todo: clear");
+            console.log("todo: clear");
         });
 
 });
@@ -139,7 +139,7 @@ Now we use these functions in the 'DOMContentLoaded' function. Under the `let te
 textarea.value = getNotes();
 ```
 
-And inside the click function for the save button, change `alert('todo: save')` to:
+And inside the click function for the save button, change `console.log('todo: save')` to:
 ```javascript
 saveNotes( textarea.value );
 ```
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() { //wait for all of the
         });
     document.getElementById('clearButton') //get the clear button
         .addEventListener('click', function(){ //run this function on a click
-            alert("todo: clear");
+            console.log("todo: clear");
         });
 
 });
