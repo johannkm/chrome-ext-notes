@@ -110,7 +110,7 @@ Now we can access the textarea in `popup.js`. Inside the 'DOMContentLoaded' func
 ```javascript
 let textarea = document.getElementById('noteText');
 ```
-We can now use `textarea.value` to get and set the text in the textarea.
+We can now use `noteText.value` to get and set the text in the textarea.
 
 ##### Note:
 The ES6 JavaScript keyword `let` acts like `var`, but the variable is only accessible within the code block instead of globally.
@@ -125,18 +125,17 @@ Chrome storage acts as a map with key-value pairs. In this case, we set 'notes' 
 
 To retrieve the text we stored, add this function:
 ```javascript
-function getNotes(){ //retrieve from local storage
+function displayNotes(){ //retrieve from local storage
     chrome.storage.local.get(function(data){//using Chrome's storage API
         if(data.notes){ //if the value exists
-            return data.notes;
+            noteText.value=data.notes;
         }
-        return '';
     });
 }
 ```
 Now we use these functions in the 'DOMContentLoaded' function. Under the `let textarea` line, add:
 ```javascript
-textarea.value = getNotes();
+displayNotes();
 ```
 
 And inside the click function for the save button, change `console.log('todo: save')` to:
@@ -148,13 +147,11 @@ Your `popup.js` should now look like this:
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() { //wait for all of the html to load
-
     let textarea = document.getElementById('noteText');
-    textarea.value = getNotes(); //initialize with saved value
-
+    displayNotes(); //<--works
     document.getElementById('saveButton') //get the save button
         .addEventListener('click', function(){ //run this function on a click
-            saveNotes( textarea.value );
+            saveNotes(textarea.value);
         });
     document.getElementById('clearButton') //get the clear button
         .addEventListener('click', function(){ //run this function on a click
@@ -167,12 +164,11 @@ function saveNotes(text){ //write note to local storage
     chrome.storage.local.set({ notes: text });
 }
 
-function getNotes(){ //retrieve from local storage
-    chrome.storage.local.get(function(data){
+function displayNotes(){ //retrieve from local storage
+    chrome.storage.local.get(function(data){//using Chrome's storage API "data"???
         if(data.notes){ //if the value exists
-            return data.notes;
+            noteText.value=data.notes;
         }
-        return '';
     });
 }
 ```
