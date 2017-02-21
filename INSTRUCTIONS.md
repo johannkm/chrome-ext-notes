@@ -165,7 +165,7 @@ function saveNotes(text){ //write note to local storage
 }
 
 function displayNotes(){ //retrieve from local storage
-    chrome.storage.local.get(function(data){//using Chrome's storage API "data"???
+    chrome.storage.local.get(function(data){//using Chrome's storage API
         if(data.notes){ //if the value exists
             noteText.value=data.notes;
         }
@@ -188,3 +188,31 @@ Now we need to edit `manifest.json` to get permission to access Chrome's storage
 }
 ```
 Since we've made an edit to the `manifest.json`, reload the chrome extension before testing it out. Now if you click save, any notes you write should stay in the extension each time you open it.
+
+### 8. Clear the notes with chrome.storage
+
+We will use Chrome's storage API to make the "Clear" button clear our notes. To do that, we're going to add the following function to the bottom of `popup.js`.
+
+```JavaScript
+function clearNotes(){
+    chrome.storage.local.clear();//uses Chrome's Storage API
+    noteText.value = "";
+}
+```
+
+Now we need the function to start when the user clicks "Clear". Replace the `console.log` in our `clearButton`'s EventListener with `clearNotes();`, as done below.
+```JavaScript
+document.addEventListener('DOMContentLoaded', function() { //wait for all of the html to load
+    let textarea = document.getElementById('noteText');
+    displayNotes(); //<--works
+    document.getElementById('saveButton') //get the save button
+        .addEventListener('click', function(){ //run this function on a click
+            saveNotes(textarea.value);
+        });
+    document.getElementById('clearButton') //get the clear button
+        .addEventListener('click', function(){ //run this function on a click
+            clearNotes();//replaces console.log
+        });
+});
+```
+Now if you click "Clear", your notes will be cleared.
