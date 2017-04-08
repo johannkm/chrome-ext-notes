@@ -108,12 +108,9 @@ First we need to get the text that the user typed. Add an id to the textarea in 
 ```
 Now we can access the textarea in `popup.js`. Inside the 'DOMContentLoaded' function, above the button code, add:
 ```javascript
-let textarea = document.getElementById('noteText');
+var noteText = document.getElementById('noteText');
 ```
 We can now use `noteText.value` to get and set the text in the textarea.
-
-##### Note:
-The ES6 JavaScript keyword `let` acts like `var`, but the variable is only accessible within the code block instead of globally.
 
 To save the text, we add this function to `popup.js`:
 ```javascript
@@ -133,25 +130,25 @@ function displayNotes(){ //retrieve from local storage
     });
 }
 ```
-Now we use these functions in the 'DOMContentLoaded' function. Under the `let textarea` line, add:
+Now we use these functions in the 'DOMContentLoaded' function. Under the `var noteText` line, add:
 ```javascript
 displayNotes();
 ```
 
 And inside the click function for the save button, change `console.log('todo: save')` to:
 ```javascript
-saveNotes( textarea.value );
+saveNotes( noteText.value );
 ```
 
 Your `popup.js` should now look like this:
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() { //wait for all of the html to load
-    let textarea = document.getElementById('noteText');
+    var noteText = document.getElementById('noteText');
     displayNotes(); //<--works
     document.getElementById('saveButton') //get the save button
         .addEventListener('click', function(){ //run this function on a click
-            saveNotes(textarea.value);
+            saveNotes(noteText.value);
         });
     document.getElementById('clearButton') //get the clear button
         .addEventListener('click', function(){ //run this function on a click
@@ -203,11 +200,11 @@ function clearNotes(){
 Now we need the function to start when the user clicks "Clear". Replace the `console.log` in our `clearButton`'s EventListener with `clearNotes();`, as done below.
 ```JavaScript
 document.addEventListener('DOMContentLoaded', function() { //wait for all of the html to load
-    let textarea = document.getElementById('noteText');
+    var noteText = document.getElementById('noteText');
     displayNotes(); //<--works
     document.getElementById('saveButton') //get the save button
         .addEventListener('click', function(){ //run this function on a click
-            saveNotes(textarea.value);
+            saveNotes(noteText.value);
         });
     document.getElementById('clearButton') //get the clear button
         .addEventListener('click', function(){ //run this function on a click
